@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssf.prototype.wwine.dao.ProductDAO">
+
+    <select id="findByName" parameterType="String" resultType="com.ssf.prototype.wwine.model.Wine">
+        SELECT PRODUCT_INFO.PDT_ID,PRODUCT_INFO.PDT_NAME,PRODUCT_INFO.PDT_EXP,PRODUCT_DETAIL.PDT_PRICE,PRODUCT_INFO.PDT_IMAGE_URL,PRODUCT_DETAIL.PDT_GRADE,PRODUCT_DETAIL.PDT_YEAR
+        FROM PRODUCT_INFO INNER JOIN PRODUCT_DETAIL
+        ON PRODUCT_INFO.PDT_ID = PRODUCT_DETAIL.PDT_ID
+        WHERE PDT_NAME LIKE CONCAT('%',#{wineName},'%');
+    </select>
+</mapper>

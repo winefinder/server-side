@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssf.prototype.wwine.dao.RetailDAO">
+    <select id="getinfo" resultType="com.ssf.prototype.wwine.model.Retail">
+        SELECT RTL_ID,RTL_NAME,RTL_REG_NO,RTL_PHONE,ST_X(RTL_LOCATION) as x_coordinate, ST_Y(RTL_LOCATION) as y_coordinate,RTL_USER_ID,RTL_ADDRESS,RTL_BHOURS,RTL_EXP
+        FROM RETAIL_INFO
+        LIMIT 1;
+    </select>
+
+    <select id="getinfoall"  resultType="com.ssf.prototype.wwine.model.Retail">
+        SELECT RTL_ID,RTL_NAME,RTL_REG_NO,RTL_PHONE,ST_X(RTL_LOCATION) as x_coordinate, ST_Y(RTL_LOCATION) as y_coordinate,RTL_USER_ID,RTL_ADDRESS,RTL_BHOURS,RTL_EXP
+        FROM RETAIL_INFO;
+    </select>
+
+    <select id="findByLocation" parameterType="hashMap" resultType="com.ssf.prototype.wwine.model.Retail">
+        SELECT RTL_ID,RTL_NAME,RTL_REG_NO,RTL_PHONE,ST_X(RTL_LOCATION) as x_coordinate, ST_Y(RTL_LOCATION) as y_coordinate,RTL_USER_ID,RTL_ADDRESS,RTL_BHOURS,RTL_EXP
+        FROM RETAIL_INFO
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.ssf.prototype.wwine.model.Retail">
+        SELECT RTL_ID,RTL_NAME,RTL_REG_NO,RTL_PHONE,ST_X(RTL_LOCATION) as x_coordinate, ST_Y(RTL_LOCATION) as y_coordinate,RTL_USER_ID,RTL_ADDRESS,RTL_BHOURS,RTL_EXP
+        FROM RETAIL_INFO
+        WHERE RTL_ID = #{RTL_ID};
+    </select>
+
+    <select id="calcByDist" parameterType="hashMap" resultType="com.ssf.prototype.wwine.model.Retail">
+        SELECT RTL_ID,RTL_NAME,RTL_REG_NO,RTL_PHONE,ST_X(RTL_LOCATION) as x_coordinate, ST_Y(RTL_LOCATION) as y_coordinate,RTL_USER_ID,RTL_ADDRESS,RTL_BHOURS,RTL_EXP
+        FROM RETAIL_INFO
+        WHERE #{RADIUS} > ST_DISTANCE_SPHERE(POINT(#{LOCATIONX}, #{LOCATIONY}), RTL_location)
+        ORDER BY ST_DISTANCE_SPHERE(POINT(#{LOCATIONX}, #{LOCATIONY}), RTL_location);
+    </select>
+
+</mapper>
